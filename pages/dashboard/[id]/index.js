@@ -18,6 +18,7 @@ function UserPage(props) {
   const [menu, setMenu] = useState(props.menu);
   const [info, setInfo] = useState(props.info);
   const [infoId, setInfoId] = useState(props.info[0].id);
+  const [username,setUsename] = useState(props.info[0].title.rendered)
   console.log("id", infoId);
   console.log("info", info);
   console.log("menu", menu);
@@ -112,7 +113,7 @@ function UserPage(props) {
   return (
     <div>
       Stai modificando 
-      <div className=" font-black"> {info[0].title.rendered}</div>
+      <div className=" font-black"> {username}</div>
       <AccordionM
         style={{ zIndex: "9999", backgroundColor: "white" }}
         onChange={expand()}
