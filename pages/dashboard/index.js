@@ -16,7 +16,7 @@ function index(props) {
             <div className="grid grid-cols-3">
            {author &&
           author.slice(0).map((post, i) => {
-            return post.id !== 1? (
+           
            <div key={i} className="p-5 h-full text-center">
              <Link href={'/dashboard/'+ post.id}key={i} >
                  <img className='h-full' src={post.url} alt="" />
@@ -24,7 +24,7 @@ function index(props) {
 
              </Link> 
              <p>{post.name}</p>
-             </div>):null
+             </div>
           
         })}
 
