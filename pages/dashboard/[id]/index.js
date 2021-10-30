@@ -112,7 +112,7 @@ function UserPage(props) {
   return (
     <div>
       Stai modificando 
-      <div className=" font-black"> {props.title}</div>
+      <div className=" font-black"> {info[0].title.rendered}</div>
       <AccordionM
         style={{ zIndex: "9999", backgroundColor: "white" }}
         onChange={expand()}
@@ -286,7 +286,7 @@ export async function getStaticPaths() {
 
   const paths = data.map((author) => {
     return {
-      params: { id: author.id.toString(), username: author.slug.toString() },
+      params: { id: author.id.toString() },
     };
   });
   return {
@@ -298,7 +298,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   // Fetch necessary data for the blog post using params.id
   const id = context.params.id;
-  const title = context.params.username;
+  
   const ress = await fetch(
     "https://www.drinkinstreet.it/wordpress/wp-json/wp/v2/posts?filter[taxonomy]=category&filter[term]=menu&filter[author]=" +
       id
@@ -314,25 +314,11 @@ export async function getStaticProps(context) {
     props: {
       menu,
       info,
-      title,
+     
     },
   };
 }
 
-export async function getInitialProps({ req, res }) {
-  // Fetch necessary data for the blog post using params.id
-  const data = parseCookies(req);
 
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" });
-      res.end();
-    }
-  }
-
-  return {
-    data: data && data,
-  };
-}
 
 export default UserPage;

@@ -18,7 +18,7 @@ function index(props) {
           author.slice(0).map((post, i) => {
             return post.id !== 1? (
            <div key={i} className="p-5 h-full text-center">
-             <Link href={'/dashboard/'+ post.id+'/'+post.slug}key={i} >
+             <Link href={'/dashboard/'+ post.id}key={i} >
                  <img className='h-full' src={post.url} alt="" />
                 
 
