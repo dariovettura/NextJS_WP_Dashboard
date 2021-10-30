@@ -13,21 +13,21 @@ function index(props) {
     console.log(author)
     return (
         <div >
+          ciao
             <div className="grid grid-cols-3">
-           {author &&
+            {author &&
           author.slice(0).map((post, i) => {
-           
+            return post.id !== 1? (
            <div key={i} className="p-5 h-full text-center">
-             <Link href={'/dashboard/'+ post.id}key={i} >
+             <Link href={'/dashboard/'+ post.id} >
                  <img className='h-full' src={post.url} alt="" />
                 
 
              </Link> 
              <p>{post.name}</p>
-             </div>
+             </div>):null
           
         })}
-
 </div>
            
 
