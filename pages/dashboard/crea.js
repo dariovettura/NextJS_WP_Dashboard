@@ -169,7 +169,7 @@ console.log(logo)
         >
           <div className="grid grid-cols-1 col-span-12">
             <h1 className="text-center text-2xl font-bold">
-              Crea un nuovo utente
+              Crea un nuovo Bar
             </h1>
             <div className="grid grid-cols-1 ">
               <label className="  "> Nome</label>

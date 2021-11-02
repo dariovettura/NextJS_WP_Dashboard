@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from 'next/link'
-
+import { GrUserAdd } from 'react-icons/gr';
 import { useCookies } from "react-cookie";
 import 'react-pro-sidebar/dist/css/styles.css';
 
@@ -19,6 +19,19 @@ function index(props) {
 
          </div>
             <div className="grid grid-cols-1 md:grid-cols-3 ">
+            <div  className=" h-full max-h-72 m-2  shadow-md ">
+             <Link href={'/dashboard/crea'} >
+               <div className='grid-cols-2 grid cursor-pointer h-full'>
+                 <GrUserAdd className='h-full w-full'/>
+               
+                <div className='ml-2 font-bold'>
+                <p >Crea Bar</p>
+                </div>
+                
+                 </div>
+             </Link> 
+           
+             </div>
             {author &&
           author.slice(0).map((post, i) => {
             return post.id !== 1? (

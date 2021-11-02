@@ -51,13 +51,10 @@ const onClick = () => {
               
   <Menu iconShape="square">
   <MenuItem icon={<FaAlignLeft></FaAlignLeft>} onClick={onClick} >Chiudi</MenuItem>
-    <MenuItem icon={<FaHome/>} ><Link href='/dashboard' >Dashboard</Link></MenuItem>
-    <MenuItem icon={<FaImage/>}> <Link href='/dashboard/media' >Media</Link>  </MenuItem>
-    <MenuItem icon={<FaUserPlus/>} ><Link href='/dashboard/crea' >Crea Utente</Link></MenuItem>
-    <SubMenu title="Components" >
-      <MenuItem>Component 1</MenuItem>
-      <MenuItem>Component 2</MenuItem>
-    </SubMenu>
+    <MenuItem icon={<FaHome/>} ><Link href='/dashboard' >Lista Bar</Link></MenuItem>
+    <MenuItem icon={<FaImage/>}> <Link href='/dashboard/media' >Aggiungi Media</Link>  </MenuItem>
+    <MenuItem icon={<FaUserPlus/>} ><Link href='/dashboard/crea' >Crea Bar</Link></MenuItem>
+    
   </Menu>
 </ProSidebar>
 <div className="bg-azu w-full overflow-y-auto">
