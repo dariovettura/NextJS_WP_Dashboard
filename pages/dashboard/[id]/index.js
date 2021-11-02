@@ -376,14 +376,15 @@ export async function getStaticPaths() {
   );
   const data = await res.json();
 
-  const paths = data.map((author) => {
-    return {
-      params: { id: author.id.toString() },
-    };
-  });
+ 
   return {
-    paths,
     fallback: 'blocking',
+    paths:data.map((author) => {
+      return { 
+        params: { id: author.id.toString() },
+      };
+    })
+  
   };
 }
 
