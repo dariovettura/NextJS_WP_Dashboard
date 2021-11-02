@@ -81,7 +81,8 @@ console.log(logo)
         const postData = {
           title: result.data.name,
          author:result.data.id,
-         status:'publish'
+         categories:2,
+         status:'publish',
         
           // fields:{
           //   avatar:'https://www.drinkinstreet.it/wordpress/wp-content/uploads/2021/10/amarimio.png'
