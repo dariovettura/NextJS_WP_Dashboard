@@ -158,7 +158,7 @@ function UserPage(props) {
               <ul className=''>
                 <li className='flex'>Logo: <p className='font-semibold'>{info[0].acf.logo}</p></li>
                 <li className='flex'>Link Video:<p className='font-semibold'>{info[0].acf.video}</p></li>
-                <li className='flex'>Descrizione:<p className='font-semibold'> {info[0].acf.descrizione.split(20)} ...</p></li>
+                <li className='flex'>Descrizione:<p className='font-semibold'> {info[0].acf.descrizione} ...</p></li>
                 <li className='flex'>Orari:<p className='font-semibold'>{info[0].acf.orari}</p></li>
                 <li className='flex'>Telefono:<p className='font-semibold'>{info[0].acf.telefono}</p></li>
                 <li className='flex'>Latitudine:<p className='font-semibold'>{info[0].acf.latitudine}</p></li>
