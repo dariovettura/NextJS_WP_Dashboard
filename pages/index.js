@@ -36,7 +36,16 @@ export default function Home() {
           {
            
             path: "/",
-            maxAge: 3600, // Expires after 1hr
+            maxAge: 7200, // Expires after 1hr
+            sameSite: true,
+          }
+        ); setCookie(
+          "data",
+          JSON.stringify(result),
+          {
+           
+            path: "/",
+            maxAge: 7200, // Expires after 1hr
             sameSite: true,
           }
         );
@@ -153,7 +162,7 @@ export default function Home() {
             height={80}
             width={80}
           />
-          <h2>Stiamo elaborando il tuo ordine</h2>
+          <h2>Attendi</h2>
         </div>
       </main>
 

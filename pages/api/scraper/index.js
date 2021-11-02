@@ -13,7 +13,7 @@ export default async function handler(req, res) {
               const title = $('.WlYyy.cPsXC.GeSzT').text()
               const descrizione = $('.AspiI._d.MJ .WlYyy.diXIH.dDKKM').text()
               const orari = $('.bHGlw').text()
-              const indirizzo = $('.deaeD.MJ button.bfQwA._G.B-._S._T.c.G_.P0.ddFHE.cnvzr.bTBvn .WlYyy.cacGK.Wb').text()
+              const indirizzo = $('.oo9gr5id.hzawbc8m span').text()
               
               
                const lastScraped = new Date().toISOString()

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Modify from "../../../components/ModifyPost";
 import {
   Accordion as AccordionM,
   AccordionItem,
@@ -11,9 +12,12 @@ import Select, { Option } from "react-select";
 import axios from "axios";
 import TripModal from "../../../components/tripModal";
 import { useCookies } from "react-cookie";
+import Modals from "../../../components/modal";
+import Loader from "react-loader-spinner";
 
 function UserPage(props) {
-  const [cookies, setCookie] = useCookies("token");
+  const [cookies, setCookies] = useCookies("token");
+  const [cookie, setCookie] = useCookies('user_nicename');
 
   const [menu, setMenu] = useState(props.menu);
   const [info, setInfo] = useState(props.info);
@@ -58,8 +62,18 @@ function UserPage(props) {
   };
 
   const getData = async (datas) => {
-    const infoData = { fields: { descrizione: datas.descrizione,
-    indirizzo:datas.indirizzo } };
+    setLoading(true);
+    const infoData = { fields: 
+      {
+    descrizione: datas.descrizione,
+    indirizzo:datas.indirizzo,
+    logo:logo,
+    latitudine:datas.latitudine,
+    longitudine:datas.longitudine,
+    video:datas.video,
+    orari:datas.orari,
+    telefono:datas.telefono
+   } };
 
     try {
       const result = await axios.put(
@@ -75,19 +89,30 @@ function UserPage(props) {
 
       if (result.data) {
         console.log(result.data);
+        setLoading(false);
+        setModal(true);
+        setModalText('Modificato con successo');
         // cookieCutter.set('token', JSON.stringify(result.data['token']))
 
         // setLoading(false);
         // setModal(true);
         // setModalText('Creato con successo');
       } else {
+      
+        setLoading(false);
         console.log(result.data);
+        setModal(true);
+        setModalText('Qualcosa è andato storto,aggiorna la pagina e verifica se sei ancora loggato');
         // setLoading(false);
         // setModal(true);
         // setModalText('Qualcosa è andato storto,forse il nome utente o email gia esiste');
       }
     } catch (err) {
       console.log(err);
+      setLoading(false);
+     
+      setModal(true);
+      setModalText('Qualcosa è andato storto,aggiorna la pagina e verifica se sei ancora loggato');
       // setLoading(false);
       // setModal(true);
       // setModalText('Qualcosa è andato storto,forse il nome utente o email gia esiste');
@@ -96,6 +121,7 @@ function UserPage(props) {
 
   const [modal, setModal] = useState(false);
   const [modalText, setModalText] = useState("");
+  const [loading, setLoading] = useState(false);
   function closeModal() {
     setModal(false);
   }
@@ -112,18 +138,34 @@ function UserPage(props) {
 
   return (
     <div>
-      Stai modificando 
-      <div className=" font-black"> {username}</div>
+       <div className="h-10 w-full shadow-md grid grid-cols-2 place-content-center">
+           <h2 className='pl-2 font-medium'>Dashboard / {username}</h2>
+           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
+
+         </div>
+    <div className="grid grid-cols-1 w-full  md:max-w-2xl  ">
       <AccordionM
-        style={{ zIndex: "9999", backgroundColor: "white" }}
+        style={{  backgroundColor: "white" }}
         onChange={expand()}
         allowZeroExpanded
-        className="z-10  grid grid-cols-1 mt-20  shadow-md"
+        className="  grid grid-cols-1 mt-20   shadow-md"
       >
         <AccordionItem className=" product-card" style={{ padding: "15px" }}>
           <AccordionItemHeading>
             <AccordionItemButton className="rounded whites accordion__button grid grid-cols-2">
-              <p>Modifica informazioni</p>
+            <div className="grid grid-cols-1">
+              <p className='font-semibold'>Modifica informazioni</p>
+              <ul className=''>
+                <li className='flex'>Logo: <p className='font-semibold'>{info[0].acf.logo}</p></li>
+                <li className='flex'>Link Video:<p className='font-semibold'>{info[0].acf.video}</p></li>
+                <li className='flex'>Descrizione:<p className='font-semibold'> {info[0].acf.descrizione.split(20)} ...</p></li>
+                <li className='flex'>Orari:<p className='font-semibold'>{info[0].acf.orari}</p></li>
+                <li className='flex'>Telefono:<p className='font-semibold'>{info[0].acf.telefono}</p></li>
+                <li className='flex'>Latitudine:<p className='font-semibold'>{info[0].acf.latitudine}</p></li>
+                <li className='flex'>Longitudine:<p className='font-semibold'>{info[0].acf.longitudine}</p></li>
+               
+              </ul>
+              </div>
               <p className="place-self-end">+</p>
             </AccordionItemButton>
           </AccordionItemHeading>
@@ -137,7 +179,7 @@ function UserPage(props) {
               style={{ width: "100%" }}
               className="h-full bg-w grid grid-cols-12 col-span-12  place-self-center p-10 rounded-md shadow-lg"
             >
-              <div className="grid grid-cols-1 col-span-12">
+              <div className="grid grid-cols-1 col-span-12 ">
                 <div className="grid grid-cols-1">
                   <label className="  mt-8"> Logo</label>
 
@@ -147,10 +189,10 @@ function UserPage(props) {
                   ></Select>
                 </div>
 
-                <div className="grid grid-cols-1 ">
+                <div className="grid grid-cols-1 mt-6">
                   <label className="  "> Video Url</label>
                   <textarea
-                    value={info[0].acf.video}
+                    defaultValue={info[0].acf.video}
                     className="pl-3 checkout border bg-azu"
                     // onChange={(e) => setOrderData(e.target.value)}
                     {...register("video", {
@@ -199,24 +241,34 @@ function UserPage(props) {
                   )}
                 </div>
                 <div className="grid grid-cols-1 ">
-                  <label className="  mt-8"> Indirizzo</label>
+                  <label className="  mt-8"> latitudine</label>
                   <textarea
-                    defaultValue={info[0].acf.indirizzo}
+                    defaultValue={info[0].acf.latitudine}
                     className="checkout border pl-3 bg-azu"
                     // onChange={(e) => setOrderData(e.target.value)}
-                    {...register("indirizzo", {
+                    {...register("latitudine", {
                       required: false,
                     })}
                   />
-                  {errors?.indirizzo?.type === "required" && (
-                    <p className="error">il campo è richiesto</p>
-                  )}
+
+                </div>
+                <div className="grid grid-cols-1 ">
+                  <label className="  mt-8"> longitudine</label>
+                  <textarea
+                    defaultValue={info[0].acf.longitudine}
+                    className="checkout border pl-3 bg-azu"
+                    // onChange={(e) => setOrderData(e.target.value)}
+                    {...register("longitudine", {
+                      required: false,
+                    })}
+                  />
+                 
                 </div>
 
                 <div className="grid grid-cols-1 ">
                   <label className="  mt-8"> Telefono</label>
                   <textarea
-                    value={info[0].acf.telefono}
+                    defaultValue={info[0].acf.telefono}
                     className="checkout border pl-3 bg-azu"
                     // onChange={(e) => setOrderData(e.target.value)}
                     {...register("telefono", {
@@ -248,15 +300,20 @@ function UserPage(props) {
         </AccordionItem>
       </AccordionM>
       <AccordionM
-        style={{ zIndex: "9999", backgroundColor: "white" }}
+        style={{  backgroundColor: "white" }}
         onChange={expand()}
         allowZeroExpanded
-        className="z-10  grid grid-cols-1 mt-20  shadow-md"
+        className="  grid grid-cols-1 mt-20 mb-40 shadow-md"
       >
         <AccordionItem className=" product-card" style={{ padding: "15px" }}>
           <AccordionItemHeading>
             <AccordionItemButton className="rounded whites accordion__button grid grid-cols-2">
-              <p>Modifica Post</p>
+             <div className="grid grid-cols-1">
+                <p className='font-semibold'>Modifica Post</p>
+                <ul>
+             <li className='flex'>N° Post: <p className='font-semibold'>{menu.length}</p></li>
+             </ul></div>
+            
               <p className="place-self-end">+</p>
             </AccordionItemButton>
           </AccordionItemHeading>
@@ -264,10 +321,44 @@ function UserPage(props) {
             style={{ zIndex: "9999" }}
             className="bg-white accordion__panel animat"
           >
-            wewewe
+           <Modify
+           menu={menu}
+           logo={logo}
+           ></Modify>
           </AccordionItemPanel>
         </AccordionItem>
       </AccordionM>
+      </div>
+      <div
+          className="grid grid-cols-1 place-items-center place-content-center"
+          style={{
+            position: loading ? "fixed" : "block",
+            display: loading ? "grid" : "none",
+
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            top: 0,
+            left: 0,
+
+            height: "100vh",
+            width: "100vw",
+            zIndex: 100,
+          }}
+        >
+          <Loader
+            className="loade"
+            type="Oval"
+            color="#ff8800"
+            height={80}
+            width={80}
+          />
+          <h2>Stiamo elaborando la tua richiesta</h2>
+        </div>
+        <div className="grid grid-cols-5">  <Modals
+        open={modal}
+        close={closeModal}
+        text={modalText}
+        ></Modals>
+        </div>
       <TripModal
         open={modal}
         close={closeModal}
@@ -301,7 +392,7 @@ export async function getStaticProps(context) {
   const id = context.params.id;
   
   const ress = await fetch(
-    "https://www.drinkinstreet.it/wordpress/wp-json/wp/v2/posts?filter[taxonomy]=category&filter[term]=menu&filter[author]=" +
+    "https://www.drinkinstreet.it/wordpress/wp-json/wp/v2/posts?_embed&filter[taxonomy]=category&filter[term]=menu&filter[author]=" +
       id
   );
   const pes = await fetch(
@@ -317,6 +408,7 @@ export async function getStaticProps(context) {
       info,
      
     },
+    revalidate:1
   };
 }
 

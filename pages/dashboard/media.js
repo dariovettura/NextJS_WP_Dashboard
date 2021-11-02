@@ -2,20 +2,43 @@ import React, { useState, useEffect } from "react";
 import { get, useForm } from "react-hook-form";
 import Loader from "react-loader-spinner";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
-import { parseCookies } from "../../helper/";
+
+import Select, { Option } from "react-select";
 
 export default function Upload({ data }) {
-  const [token, setToken] = useState(JSON.parse(data.token));
-  const [name, setName] = useState(JSON.parse(data.user_nicename));
-
+ 
+  const [cookie, setCookie] = useCookies('user_nicename');
+  const [cookies, setCookies] = useCookies("token");
   const [loading, setLoading] = useState(false);
-  
+  const [users,setUsers] = useState()
+  const [user,setUser] = useState(1)
+const [uploadok,setUploadok] =useState(false)
+const [text,settext] = useState()
 
+  useEffect(async () => {
+    const result = await axios.get(
+      "https://www.drinkinstreet.it/wordpress/wp-json/wp/v2/users"
+    );
 
+    setUsers(result.data);
+    console.log(result.data)
+  }, []);
 
-  const addPost = async (datas) => {
+  const options = users?.map((post) => ({
+    value: post.id,
+    label: (
+      <div>
+     
+        {post.name}
+      </div>
+    ),
+  }));
+
+  const getData = async (datas) => {
     setLoading(true);
+    setUploadok(false);
     // const postData = {
     //   file: datas.file,
     //  title:'test'
@@ -24,7 +47,8 @@ export default function Upload({ data }) {
     // };
     const formData = new FormData();
     formData.append("file", datas.file[0]);
-    formData.append("title", 'ciao');
+    formData.append("title", datas.titolo);
+    formData.append("author", user);
     console.log(datas.file[0])
     try {
       const result = await axios.post(
@@ -33,7 +57,7 @@ export default function Upload({ data }) {
           {
             headers: {
                 "Content-Type": "multipart/form-data;",
-              'Authorization': `Bearer ${token}` 
+              'Authorization': `Bearer ${cookies.token}` 
             },
           }
       );
@@ -43,8 +67,12 @@ export default function Upload({ data }) {
         // cookieCutter.set('token', JSON.stringify(result.data['token']))
 
         setLoading(false);
+        setUploadok(true);
+        settext('Foto caricata con successo')
       } else {
         setLoading(false);
+        setUploadok(true);
+        settext('Non caricata,probabilmente il nome già esiste oppure è scaduto il login.Aggiorna la pagina')
         console.log(result.data);
       }
     } catch (err) {
@@ -63,11 +91,14 @@ export default function Upload({ data }) {
   return (
     <>
       <div>
-        <h1>Ciao {name}</h1>
-        <p>token:{token} </p>
+      <div className="h-10 w-full mb-16 shadow-md grid grid-cols-2 place-content-center">
+           <h2 className='pl-2 font-medium'>Dashboard / Add Media</h2>
+           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
 
-        <form className="grid grid-cols-12">
-          <div className="grid grid-cols-1 col-span-7">
+         </div>
+
+        <form className="grid grid-cols-12 place-content-center">
+          <div className="max-w-md grid grid-cols-1 col-span-7 mb-5">
             <label> File</label>
             <input
             type='file'
@@ -79,15 +110,45 @@ export default function Upload({ data }) {
               
               })}
             />
-          
+           </div>
+           <div className="max-w-md grid grid-cols-1 mb-5 col-span-7" >
+            <label> titolo</label>
+            <input
+            type='text'
+              className="checkout border"
+              // onChange={(e) => setOrderData(e.target.value)}
+              {...register("titolo", {
+                required: true,
 
-            <button
-              className=" border mt-10  h-12 flex flex-wrap   w-full btn_don_oro justify-center  content-center"
-              onClick={handleSubmit(addPost)}
-            >
-              crea
-            </button>
-          </div>
+              
+              })}
+            />
+           </div>
+           <div className="max-w-md grid grid-cols-1 mb-5 col-span-7" >
+           <label> Autore</label>
+           <Select className='col-span-7'
+           
+                    options={options}
+                    
+                    onChange={(e) => setUser(e.value)}
+                  ></Select>
+                  </div>
+                  <div className="max-w-md grid grid-cols-1 mb-5 col-span-7"  style={{
+          
+            display: uploadok ? "block" : "none",
+
+        
+          }}
+        >
+          {text}
+                  </div>
+           <button
+                  className="btn  mt-10  h-12 flex flex-wrap  col-span-7  w-full  justify-center  content-center"
+                  onClick={handleSubmit(getData)}
+                >
+                  Update
+                </button>
+         
         </form>
         <div
           className="grid grid-cols-1 place-items-center place-content-center"
@@ -117,17 +178,5 @@ export default function Upload({ data }) {
     </>
   );
 }
-Upload.getInitialProps = async ({ req, res }) => {
-  const data = parseCookies(req);
 
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" });
-      res.end();
-    }
-  }
 
-  return {
-    data: data && data,
-  };
-};

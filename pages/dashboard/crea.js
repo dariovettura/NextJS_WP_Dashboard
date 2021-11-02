@@ -6,12 +6,14 @@ import 'react-dropdown/style.css';
 import Loader from "react-loader-spinner";
 import axios from "axios";
 import Modals from "../../components/modal";
+import { useCookies } from "react-cookie";
 
 import { parseCookies } from "../../helper/";
 
 export default function Subscription({ data }) {
-  const [token, setToken] = useState('JSON.parse(data.token)');
-  const [name, setName] = useState('JSON.parse(data.user_nicename)');
+  const [cookies, setCookies] = useCookies("token");
+  const [cookie, setCookie] = useCookies('user_nicename');
+ 
 
   const [modal, setModal] = useState(false);
   const [modalText,setModalText] = useState('')
@@ -34,11 +36,12 @@ export default function Subscription({ data }) {
 
     setLogo(result.data);
   }, []);
-
+console.log(logo)
   
 
   const options  =  
-    logo?.map((post) => ({ value: post.source_url, label: <div><img src={post.source_url} height="30px" width="30px"/>Chocolate </div> }),)
+    logo?.map((post) =>
+     ({ value: post.source_url, label: <div><img src={post.source_url} height="30px" width="30px"/>{post.title.rendered} </div> }),)
     
     
   ;
@@ -68,7 +71,7 @@ export default function Subscription({ data }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${cookies.token}`,
           },
         }
       );
@@ -95,7 +98,7 @@ export default function Subscription({ data }) {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${cookies.token}`,
               },
             }
           );
@@ -154,7 +157,11 @@ export default function Subscription({ data }) {
 
   return (
     <>
-      <h1>Ciao {token}</h1>
+     <div className="h-10 w-full mb-16 shadow-md grid grid-cols-2 place-content-center">
+           <h2 className='pl-2 font-medium'>Dashboard / Add User</h2>
+           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
+
+         </div>
       <main style={{ minHeight: "70%" }} className="grid grid-cols-12 bg-azu ">
         <form
           style={{ width: "350px" }}
@@ -281,17 +288,4 @@ export default function Subscription({ data }) {
     </>
   );
 }
-Subscription.getInitialProps = async ({ req, res }) => {
-  const data = parseCookies(req);
 
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" });
-      res.end();
-    }
-  }
-
-  return {
-    data: data && data,
-  };
-};

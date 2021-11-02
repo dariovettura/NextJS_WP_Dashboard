@@ -25,8 +25,11 @@ function closeModal() {
         style={customStyles}
         contentLabel="Example Modal"
       >
+     <div className="grid grid-cols-2">
+       <div className=""></div>
+       <button className='place-self-end' onClick={props.close}>Chiudi</button>
+       </div>
      
-     <button onClick={props.close}>close</button>
        <p>{props.text}</p>
       </Modal>
             

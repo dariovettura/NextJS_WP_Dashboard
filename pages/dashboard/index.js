@@ -7,24 +7,32 @@ import 'react-pro-sidebar/dist/css/styles.css';
 
 function index(props) {
 
-  
+  const [cookie, setCookie] = useCookies('user_nicename');
 
     const [author, setAuthor] = useState(props.author);
     console.log(author)
     return (
         <div >
-          ciao
-            <div className="grid grid-cols-3">
+         <div className="h-10 w-full shadow-md grid grid-cols-2 place-content-center">
+           <h2 className='pl-2 font-medium'>Dashboard</h2>
+           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
+
+         </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 ">
             {author &&
           author.slice(0).map((post, i) => {
             return post.id !== 1? (
-           <div key={i} className="p-5 h-full text-center">
+           <div key={i} className=" h-full max-h-72 m-2  shadow-md ">
              <Link href={'/dashboard/'+ post.id} >
+               <div className='grid-cols-2 grid cursor-pointer'>
                  <img className='h-full' src={post.url} alt="" />
+                <div className='ml-2 font-bold'>
+                <p >{post.name}</p>
+                </div>
                 
-
+                 </div>
              </Link> 
-             <p>{post.name}</p>
+           
              </div>):null
           
         })}

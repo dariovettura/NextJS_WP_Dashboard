@@ -66,12 +66,15 @@ function closeModal() {
     return (
         <div>
 
+     
              <Modal
         isOpen={props.open}
         style={customStyles}
         contentLabel="Example Modal"
       >
-     
+      <div className="grid grid-cols-2">
+       <div className=""></div>
+       <button className='place-self-end' onClick={props.close}>Chiudi</button></div>
      <form
               style={{ width: "100%" }}
               className="h-full bg-w grid grid-cols-12 col-span-12  place-self-center p-10 rounded-md shadow-lg"

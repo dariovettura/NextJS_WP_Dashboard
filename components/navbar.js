@@ -45,6 +45,7 @@ const onClick = () => {
 
     return (
         <div className='flex' style={{height:'100vh'}}>
+        
              <ProSidebar className='h-full'
             collapsed={collaps}>
               
@@ -60,7 +61,9 @@ const onClick = () => {
   </Menu>
 </ProSidebar>
 <div className="bg-azu w-full overflow-y-auto">
+
 <div className='p-10 h-full'>
+
             {children}
             </div>
             </div>
