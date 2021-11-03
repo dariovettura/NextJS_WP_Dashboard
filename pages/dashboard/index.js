@@ -18,8 +18,8 @@ function index(props) {
            <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
 
          </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 ">
-            <div  className=" h-full max-h-72 m-2  shadow-md ">
+            <div className="grid grid-cols-1 md:grid-cols-3 pb-40">
+            <div  className="  max-h-72 mt-8  shadow-md ">
              <Link href={'/dashboard/crea'} >
                <div className='grid-cols-2 grid cursor-pointer h-full'>
                  <GrUserAdd className='h-full w-full'/>
@@ -35,10 +35,10 @@ function index(props) {
             {author &&
           author.slice(0).map((post, i) => {
             return post.id !== 1? (
-           <div key={i} className=" h-full max-h-72 m-2  shadow-md ">
+           <div key={i} className=" mt-8   shadow-md ">
              <Link href={'/dashboard/'+ post.id} >
-               <div className='grid-cols-2 grid cursor-pointer'>
-                 <img className='h-full' src={post.url} alt="" />
+               <div className='grid-cols-2 h-full grid cursor-pointer'>
+                 <img className='object-contain' src={post.url} alt="" />
                 <div className='ml-2 font-bold'>
                 <p >{post.name}</p>
                 </div>

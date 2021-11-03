@@ -59,7 +59,7 @@ const onClick = () => {
 </ProSidebar>
 <div className="bg-azu w-full overflow-y-auto">
 
-<div className='p-10 h-full'>
+<div className='md:p-10 p-2 h-full'>
 
             {children}
             </div>
