@@ -19,3 +19,52 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.accordion {
+  margin: 0;
+  border: 1px solid #D8D5DB;
+  border-width: 0px 1px 1px 1px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.accordion:nth-of-type(1) {
+  border-top-width: 1px
+}
+
+.accordion-title {
+  font-size: 18px;
+  color: #3E4E50;
+  font-weight: 500;
+  display: flex;
+}
+
+.accordion-title:hover {
+  cursor: pointer;
+}
+
+.accordion img.toggle {
+  width: 16px;
+  height: 16px;
+  align-self: center;
+  margin-left: auto;
+  transition: all 0.35s ease;
+}
+
+.accordion img.toggle[aria-expanded="true"] {
+  transform: rotateZ(90deg);
+}
+
+.accordion-content {
+  overflow: hidden;
+  max-height: 1000px;
+  transition: max-height 1s ease-in-out;
+}
+
+.accordion-content[aria-expanded="true"] {
+  max-height: 0px;
+  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}

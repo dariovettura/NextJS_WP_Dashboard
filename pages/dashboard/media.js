@@ -91,11 +91,7 @@ const [text,settext] = useState()
   return (
     <>
       <div>
-      <div className="h-10 w-full mb-16 shadow-md grid grid-cols-2 place-content-center">
-           <h2 className='pl-2 font-medium'>Dashboard / Add Media</h2>
-           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
-
-         </div>
+     
 
         <form className="grid grid-cols-12 place-content-center">
           <div className="max-w-md grid grid-cols-1 col-span-7 mb-5">

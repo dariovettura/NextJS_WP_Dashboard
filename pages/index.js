@@ -4,8 +4,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Loader from "react-loader-spinner";
 import { useCookies } from "react-cookie";
-import cookieCutter from "cookie-cutter";
-import Image from "next/image";
+
+
+
 import { get, useForm } from "react-hook-form";
 
 export default function Home() {
@@ -41,7 +42,7 @@ export default function Home() {
           }
         ); setCookie(
           "data",
-          JSON.stringify(result),
+          JSON.stringify(result.data),
           {
            
             path: "/",
@@ -164,6 +165,12 @@ export default function Home() {
           />
           <h2>Attendi</h2>
         </div>
+
+
+       
+
+
+
       </main>
 
       <footer></footer>

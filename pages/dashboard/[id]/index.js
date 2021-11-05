@@ -67,7 +67,7 @@ function UserPage(props) {
       {
     descrizione: datas.descrizione,
     indirizzo:datas.indirizzo,
-    logo:logo,
+    logo:img,
     latitudine:datas.latitudine,
     longitudine:datas.longitudine,
     video:datas.video,
@@ -138,11 +138,7 @@ function UserPage(props) {
 
   return (
     <div>
-       <div className="h-10 w-full shadow-md grid grid-cols-2 place-content-center">
-           <h2 className='pl-2 font-medium'>Dashboard / {username}</h2>
-           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
-
-         </div>
+     
     <div className="grid grid-cols-1 w-full  md:max-w-2xl  ">
       <AccordionM
         style={{  backgroundColor: "white" }}
@@ -359,12 +355,12 @@ function UserPage(props) {
         text={modalText}
         ></Modals>
         </div>
-      <TripModal
+      {/* <TripModal
         open={modal}
         close={closeModal}
         text={modalText}
         info={setInfo}
-      ></TripModal>
+      ></TripModal> */}
     </div>
   );
 }

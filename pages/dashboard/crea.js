@@ -137,7 +137,7 @@ console.log(logo)
         setModalText('Creato con successo');
       } else {
         setLoading(false);
-        console.log(result.data);
+        console.log(result);
         setModal(true);
         setModalText('Qualcosa è andato storto,forse il nome utente o email gia esiste');
       }
@@ -158,11 +158,7 @@ console.log(logo)
 
   return (
     <>
-     <div className="h-10 w-full mb-16 shadow-md grid grid-cols-2 place-content-center">
-           <h2 className='pl-2 font-medium'>Dashboard / Add User</h2>
-           <h2 className='pr-2 font-medium place-self-end'>Ciao {cookie.user_nicename}</h2>
-
-         </div>
+    
       <main style={{ minHeight: "70%" }} className="grid grid-cols-12 bg-azu ">
         <form
           style={{ width: "350px" }}
@@ -180,16 +176,14 @@ console.log(logo)
                 {...register("name", {
                   required: true,
 
-                  pattern: /^[A-Za-z0-9'\.\-\s\,]+$/i,
+                 
                 })}
               />
               {errors?.name?.type === "required" && (
                 <p className="error">il campo è richiesto</p>
               )}
 
-              {errors?.name?.type === "pattern" && (
-                <p className="error">solo lettere e numeri</p>
-              )}
+            
             </div>
 
             <div className="grid grid-cols-1 ">
@@ -242,7 +236,7 @@ console.log(logo)
 
       </select> */}
     
-      <Select options={options}    onChange={(e) => setImg(e.value)} ></Select>
+      <Select options={options}  ariaHideApp={false}  onChange={(e) => setImg(e.value)} ></Select>
       </div>
 
             <button
@@ -279,6 +273,7 @@ console.log(logo)
           <h2>Stiamo elaborando la tua richiesta</h2>
         </div>
         <div className="grid grid-cols-5">  <Modals
+        ariaHideApp={false}
         open={modal}
         close={closeModal}
         text={modalText}
